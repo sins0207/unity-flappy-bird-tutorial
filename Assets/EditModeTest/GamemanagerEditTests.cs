@@ -159,7 +159,7 @@ public class GameManagerEditTest
     [Test]
     public void Play_SetsTimeScaleAndEnablesPlayer()
     {
-      
+
         Time.timeScale = 0f;
         player.enabled = false;
         playButton.SetActive(true);
@@ -167,7 +167,7 @@ public class GameManagerEditTest
 
         gameManager.Play();
 
-      
+
         Assert.AreEqual(1f, Time.timeScale, "Time.timeScale should be 1 after Play().");
         Assert.IsTrue(player.enabled, "Player should be enabled after Play().");
         Assert.IsFalse(playButton.activeSelf, "Play button should be hidden after Play().");
@@ -176,16 +176,16 @@ public class GameManagerEditTest
     [Test]
     public void GameOver_DisablesPlayerAndShowsUI()
     {
-        
+
         Time.timeScale = 1f;
         player.enabled = true;
         playButton.SetActive(false);
         gameOverUI.SetActive(false);
 
-       
+
         gameManager.GameOver();
 
-        
+
         Assert.AreEqual(0f, Time.timeScale, "Time.timeScale should be 0 after GameOver().");
         Assert.IsFalse(player.enabled, "Player should be disabled after GameOver().");
         Assert.IsTrue(playButton.activeSelf, "PlayButton should be active after GameOver().");

@@ -73,7 +73,7 @@ public class GameManagerPlayTests
         Assert.IsNotNull(player, "Player reference is null at test start.");
         Assert.IsNotNull(gameManager.playButton, "Play button reference is null.");
 
-        
+
         gameManager.Play();
 
         yield return null;
