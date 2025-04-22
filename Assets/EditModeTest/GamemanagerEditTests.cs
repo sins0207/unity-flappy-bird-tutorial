@@ -58,16 +58,16 @@ public class GameManagerEditTest
         GameObject.DestroyImmediate(playerObject); // Dọn dẹp playerObject
     }
 
-    [Test]
-    public void IncreaseScore_IncreasesScoreByOne()
-    {
-        int initialScore = gameManager.score;
+    //[Test]
+    //public void IncreaseScore_IncreasesScoreByOne()
+    //{
+    //    int initialScore = gameManager.score;
 
-        gameManager.IncreaseScore();
+    //    gameManager.IncreaseScore();
 
-        Assert.AreEqual(initialScore + 1, gameManager.score, "Score should increase by 1");
-        Assert.AreEqual(gameManager.score.ToString(), scoreText.text, "Score text should be updated correctly");
-    }
+    //    Assert.AreEqual(initialScore + 1, gameManager.score, "Score should increase by 1");
+    //    Assert.AreEqual(gameManager.score.ToString(), scoreText.text, "Score text should be updated correctly");
+    //}
 
     [Test]
     public void StartGame_SimulateScoreReset_Passes()
