@@ -30,7 +30,6 @@ public class GameManagerEditTest
         gameOverUI.SetActive(false);
         gameManager.gameOver = gameOverUI;
 
-
         scoreTextObject = new GameObject("ScoreText");
         scoreText = scoreTextObject.AddComponent<Text>();
         scoreText.text = "0";
@@ -50,41 +49,15 @@ public class GameManagerEditTest
     }
 
     [TearDown]
-
     public void Teardown()
     {
         GameObject.DestroyImmediate(gameManagerObject);
         GameObject.DestroyImmediate(playButton);
         GameObject.DestroyImmediate(gameOverUI);
         GameObject.DestroyImmediate(scoreTextObject);
-
+        GameObject.DestroyImmediate(playerObject); // Dọn dẹp playerObject
     }
-    //[Test]
-    //public void IncreaseScore_UpdateScoreAndTextCorrectly()
-    //{
-    //    Assert.AreEqual(0, gameManager.score, "Initial score should be 0.");
-    //    Assert.AreEqual("0", scoreText.text, "Initial score text should be '0'.");
-    //    gameManager.IncreaseScore();
-    //    Assert.AreEqual(1, gameManager.score, "Score properly should be 1 after");
-    //    Assert.AreEqual("1", scoreText.text, "Score Text UI should display '1' after IncreaseScore. ");
-    //}
 
-
-    //[Test]
-    //public void GameManagerEditTEstSimplePasses()
-    //{
-    //    // Use the Assert class to test conditions
-    //}
-
-    //// A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    //// `yield return null;` to skip a frame.
-    //[UnityTest]
-    //public IEnumerator GameManagerEditTEstWithEnumeratorPasses()
-    //{
-    //    // Use the Assert class to test conditions.
-    //    // Use yield to skip a frame.
-    //    yield return null;
-    //}
     [Test]
     public void IncreaseScore_IncreasesScoreByOne()
     {
@@ -103,7 +76,7 @@ public class GameManagerEditTest
         gameManager.score = 5;
         gameManager.scoreText.text = "5";
 
-        //Không gọi gameManager.Play(), vì nó không reset score.
+        // Không gọi gameManager.Play(), vì nó không reset score.
         // Tự mình reset score để mô phỏng hành vi mong muốn.
         gameManager.score = 0;
         gameManager.scoreText.text = "0";
@@ -156,17 +129,15 @@ public class GameManagerEditTest
         // Dọn dẹp đối tượng giả lập
         Object.DestroyImmediate(obstacleObject);
     }
+
     [Test]
     public void Play_SetsTimeScaleAndEnablesPlayer()
     {
-
         Time.timeScale = 0f;
         player.enabled = false;
         playButton.SetActive(true);
 
-
         gameManager.Play();
-
 
         Assert.AreEqual(1f, Time.timeScale, "Time.timeScale should be 1 after Play().");
         Assert.IsTrue(player.enabled, "Player should be enabled after Play().");
@@ -176,15 +147,12 @@ public class GameManagerEditTest
     [Test]
     public void GameOver_DisablesPlayerAndShowsUI()
     {
-
         Time.timeScale = 1f;
         player.enabled = true;
         playButton.SetActive(false);
         gameOverUI.SetActive(false);
 
-
         gameManager.GameOver();
-
 
         Assert.AreEqual(0f, Time.timeScale, "Time.timeScale should be 0 after GameOver().");
         Assert.IsFalse(player.enabled, "Player should be disabled after GameOver().");
@@ -195,19 +163,8 @@ public class GameManagerEditTest
     [Test]
     public void Pause_DisablesPlayerAndStopsTime()
     {
-        // Giả lập player và gán vào GameManager
-        var playerObject = new GameObject("Player");
-        var player = playerObject.AddComponent<Player>();
+        // Đảm bảo trạng thái ban đầu
         player.enabled = true;
-
-        var gameManagerObject = new GameObject("GameManager");
-        var gameManager = gameManagerObject.AddComponent<GameManager>();
-
-        gameManager.GetType()
-            .GetField("player", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public)
-            .SetValue(gameManager, player);
-
-        // Đảm bảo Time.timeScale đang chạy
         Time.timeScale = 1f;
 
         // Gọi Pause()
@@ -216,14 +173,13 @@ public class GameManagerEditTest
         // Kiểm tra kết quả
         Assert.AreEqual(0f, Time.timeScale, "Game should be paused (timeScale = 0).");
         Assert.IsFalse(player.enabled, "Player should be disabled during pause.");
-
-        // Cleanup
-        Object.DestroyImmediate(playerObject);
-        Object.DestroyImmediate(gameManagerObject);
     }
 
-
-
+    [Test]
+    public void Awake_SetsInitialUIState()
+    {
+        // Kiểm tra trạng thái ban đầu của UI sau khi Awake được gọi trong Setup
+        Assert.IsFalse(playButton.activeSelf, "PlayButton should be inactive after Awake.");
+        Assert.IsFalse(gameOverUI.activeSelf, "GameOver UI should be inactive after Awake.");
+    }
 }
-
-
