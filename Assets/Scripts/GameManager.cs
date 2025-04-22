@@ -1,18 +1,24 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+
+[assembly: InternalsVisibleTo ("EditModeTest")]
+[assembly: InternalsVisibleTo ("PlayModeTest")]
+
+
 
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private Player player;
-    [SerializeField] private Spawner spawner;
-    [SerializeField] private Text scoreText;
-    [SerializeField] private GameObject playButton;
-    [SerializeField] private GameObject gameOver;
+    [SerializeField] internal Player player;
+    [SerializeField] internal Spawner spawner;
+    [SerializeField] internal Text scoreText;
+    [SerializeField] internal GameObject playButton;
+    [SerializeField] internal GameObject gameOver;
 
-    public int score { get; private set; } = 0;
+    public int score { get; internal set; } = 0;
 
     private void Awake()
     {
