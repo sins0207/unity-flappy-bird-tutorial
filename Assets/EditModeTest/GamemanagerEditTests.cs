@@ -192,6 +192,35 @@ public class GameManagerEditTest
         Assert.IsTrue(gameOverUI.activeSelf, "GameOver UI should be active after GameOver().");
     }
 
+    [Test]
+    public void Pause_DisablesPlayerAndStopsTime()
+    {
+        // Giả lập player và gán vào GameManager
+        var playerObject = new GameObject("Player");
+        var player = playerObject.AddComponent<Player>();
+        player.enabled = true;
+
+        var gameManagerObject = new GameObject("GameManager");
+        var gameManager = gameManagerObject.AddComponent<GameManager>();
+
+        gameManager.GetType()
+            .GetField("player", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public)
+            .SetValue(gameManager, player);
+
+        // Đảm bảo Time.timeScale đang chạy
+        Time.timeScale = 1f;
+
+        // Gọi Pause()
+        gameManager.Pause();
+
+        // Kiểm tra kết quả
+        Assert.AreEqual(0f, Time.timeScale, "Game should be paused (timeScale = 0).");
+        Assert.IsFalse(player.enabled, "Player should be disabled during pause.");
+
+        // Cleanup
+        Object.DestroyImmediate(playerObject);
+        Object.DestroyImmediate(gameManagerObject);
+    }
 
 
 
